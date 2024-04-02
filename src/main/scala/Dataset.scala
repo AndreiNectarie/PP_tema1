@@ -37,21 +37,19 @@ class Dataset(m: List[List[String]]) {
   def split(percentage: Double): (Dataset, Dataset) = {
     val sortedData = data.tail.sortBy((row: List[String]) => row.head)
     val raport = (1 / percentage).ceil - 1
-    var counter = 0;
-    val testData = new Dataset(Nil);
-    val trainingData = new Dataset(Nil)
-    testData.addRow(data.head)
-    trainingData.addRow(data.head)
-    sortedData.foreach { row =>
-      if (counter < raport) {
-        trainingData.addRow(row)
-        counter = counter + 1
-      } else {
-        testData.addRow(row)
-        counter = 0
-      }
+
+    val (trainingData, testData, _) = sortedData.foldLeft((new Dataset(Nil), new Dataset(Nil), 0)) {
+      case ((trainingData, testData, counter), row) =>
+        if (counter < raport) {
+          trainingData.addRow(row)
+          (trainingData, testData, counter + 1)
+        } else {
+          testData.addRow(row)
+          (trainingData, testData, 0)
+        }
     }
-    (trainingData, testData)
+
+    (new Dataset(data.head :: trainingData.data), new Dataset(data.head :: testData.data))
   }
 
   def size: Int = data.size

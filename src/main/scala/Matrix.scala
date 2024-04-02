@@ -63,11 +63,11 @@ class Matrix(m: Option[List[List[Double]]]) {
     }
   }
 
+  
+  
     private def subtractMatrices(a: Mat, b: Mat): Mat = {
       val result = a.zip(b).map { (row_a, row_b) =>
-        row_a.zip(row_b).map { (elem_a, elem_b) =>
-          elem_a - elem_b
-        }
+        row_a.zip(row_b).map((elem_a, elem_b) => elem_a - elem_b)
       }
       result
     }
