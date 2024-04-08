@@ -160,7 +160,7 @@ class TestRegression extends FunSuite {
           .zip(List(117.68190794119705, 0.1827095147039086))
           .map((a, b) => a / b < 1 + eps && a / b > 1 - eps)
         println("Loss: " + loss)
-        assert(ok.reduce(_ && _))
-    }
+        assert(ok.reduce(_&&_))
+        }
 
 }

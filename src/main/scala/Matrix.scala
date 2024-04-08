@@ -22,6 +22,13 @@ class Matrix(m: Option[List[List[Double]]]) {
     )
     new Matrix(Some(result))
   }
+
+  def *(scalar: Double): Matrix = {
+    data match {
+      case None => new Matrix(None)
+      case Some(x) => new Matrix(Some(x.map(row => row.map(_ * scalar))))
+    }
+  }
   def *(other: Matrix): Matrix = {
     data match {
       case None => new Matrix(None)
@@ -99,7 +106,7 @@ object Matrix {
     new Matrix(data)
   }
   def apply(dataset: Dataset): Matrix = {
-    val data = dataset.data
+    val data = dataset.data.tail
     val m = data.map(_.map(_.toDouble))
     new Matrix(Some(m))
   }
